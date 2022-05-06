@@ -6,7 +6,7 @@ type ButtonProps = {
   isExternal?: boolean;
 } & AnchorHTMLAttributes<HTMLAnchorElement>;
 
-const baseStyle =
+export const baseStyle =
   'bg-green-500 rounded-md p-1 px-3 text-white border-2 border-green-600 hover:bg-green-600 transition ease-in duration-300';
 
 const ExternalLink = ({ children, ...props }: ButtonProps) => (
