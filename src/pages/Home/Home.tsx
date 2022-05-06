@@ -1,31 +1,56 @@
-import { Anchor } from '@/components';
+import { useState } from 'react';
+
+import { Card } from './components/Card';
+import { Anchor, Button } from '@/components';
 import { Mascot } from '@/assets/images/';
+import { setUrlWithParams } from '@/utils/url';
+import { PATHS } from '@/constants/paths';
 
 type Language = 'en' | 'pt';
 
-const ROUTES = {
-  lesson: (language: Language) => `/lessons/${language}`,
-};
+type Level = 'beginner' | 'medium' | 'advanced';
+
+const cardStyle =
+  ' absolute bottom-0 translate-x-full opacity-0 transition-all ease-in-out duration-300 ';
 
 export const Home = () => {
+  const [language, setLanguage] = useState('');
+
+  const handleSelectedLanguage = (language: Language | string) => {
+    setLanguage(language);
+  };
+
+  const handleUrlNavigation = (level: Level) => {
+    return setUrlWithParams(PATHS.LESSONS, { language, level });
+  };
+
   return (
     <div className="bg-gray-100 flex h-screen w-full flex-col items-center ">
       <div className="relative flex gap-4 mt-40">
         <h1 className="text-6xl font-bold text-gray-700">Welcome to</h1>
         <h1 className="text-6xl font-bold text-green-500">React-Lingo</h1>
 
-        <Mascot className="absolute w-24 h-40 left-full bottom-0" />
+        <Mascot className="absolute w-24 h-40 -right-16 -top-20" />
       </div>
 
-      <main className="flex flex-col items-center mt-16">
-        <h3 className="text-3xl font-bold text-gray-600">
-          Choose your language
-        </h3>
+      <main className="relative maxw-96">
+        <Card title="Choose your language">
+          <Button onClick={() => handleSelectedLanguage('en')}>English</Button>
+          <Button onClick={() => handleSelectedLanguage('pt')}>
+            Portuguese
+          </Button>
+        </Card>
 
-        <div className="flex mt-4 gap-2">
-          <Anchor href={ROUTES.lesson('en')}>English</Anchor>
-          <Anchor href={ROUTES.lesson('pt')}>Portuguese</Anchor>
-        </div>
+        <Card
+          title="Choose your level"
+          style={language ? cardStyle + 'translate-x-0 opacity-100' : cardStyle}
+          handleSelectedLanguage={() => handleSelectedLanguage('')}
+          hasIcon
+        >
+          <Anchor href={handleUrlNavigation('beginner')}>Beginner</Anchor>
+          <Anchor href={handleUrlNavigation('medium')}>Medium</Anchor>
+          <Anchor href={handleUrlNavigation('advanced')}>Advanced</Anchor>
+        </Card>
       </main>
     </div>
   );
