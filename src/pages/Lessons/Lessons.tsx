@@ -1,49 +1,30 @@
 import { IcClose } from '@/assets/icons';
+import { useLocation } from 'react-router-dom';
+import { Language, Level } from '@/pages';
+import { lessons } from './data/lessons';
 
-const renders = {
+type LessonType = 'listening' | 'words' | 'images' | 'completeWord';
+
+type Element = () => JSX.Element;
+
+const renders: Record<LessonType, Element> = {
   listening: () => <div className="bg-gray-300 w-6/12 h-4"></div>,
   words: () => <div className="bg-gray-300 w-6/12 h-4"></div>,
   images: () => <div className="bg-gray-300 w-6/12 h-4"></div>,
   completeWord: () => <div className="bg-gray-300 w-6/12 h-4"></div>,
 };
 
-const lessons = {
-  beginner: {
-    steps: [
-      {
-        type: 'listening',
-        title: 'Listening',
-        words: [],
-        sentence: 'List',
-      },
-    ],
-  },
-  medium: {
-    steps: [
-      {
-        type: 'listening',
-        title: 'Listening',
-        words: [],
-        sentence: 'List',
-      },
-    ],
-  },
-  advanced: {
-    steps: [
-      {
-        type: 'listening',
-        title: 'Listening',
-        words: [],
-        sentence: 'List',
-      },
-    ],
-  },
-};
-
 export const Lessons = () => {
-  console.log(lessons);
+  const params = useLocation();
 
-  const Element = renders['listening'];
+  const [language, level] = ['language', 'level'].map((key) =>
+    new URLSearchParams(params.search).get(key),
+  ) as [Language, Level];
+
+  const steps = lessons[language][level].steps;
+  const step = steps[0];
+
+  const Lesson = renders[step.type as LessonType];
 
   return (
     <div className="flex justify-center items-center flex-col pt-12 w-full">
@@ -61,7 +42,7 @@ export const Lessons = () => {
         </div>
       </div>
 
-      <Element />
+      <Lesson />
     </div>
   );
 };

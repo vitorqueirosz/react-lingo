@@ -6,9 +6,9 @@ import { Mascot } from '@/assets/images/';
 import { setUrlWithParams } from '@/utils/url';
 import { PATHS } from '@/constants/paths';
 
-type Language = 'en' | 'pt';
+export type Language = 'en' | 'pt';
 
-type Level = 'beginner' | 'medium' | 'advanced';
+export type Level = 'beginner' | 'medium' | 'advanced';
 
 const cardStyle =
   ' absolute bottom-0 translate-x-full opacity-0 transition-all ease-in-out duration-300 ';
