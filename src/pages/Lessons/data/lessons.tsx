@@ -5,9 +5,9 @@ export const lessons = {
     beginner: {
       steps: [
         {
-          type: 'listening',
+          type: 'sentence',
           title: 'Write this in English',
-          image: <Woman />,
+          image: () => <Woman />,
           words: ['woman', 'boy', 'I', 'A', 'man'],
           sentence: 'Um homem',
         },
