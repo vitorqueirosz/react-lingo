@@ -15,28 +15,28 @@ export const Sentence = ({
 }: SentenceProps) => {
   const [answeredList, setAnsweredList] = useState<string[]>([]);
 
-  const wordRef = useRef<HTMLDivElement | null>(null);
-  const answeredListRef = useRef<HTMLDivElement | null>(null);
+  const wordsRef = useRef<HTMLDivElement[] | null>([]);
+  const answeredListRef = useRef<HTMLDivElement>(null);
 
-  const handleSelectWord = (id: string) => {
+  const handleSelectWord = (id: string, index: number) => {
     const exists = answeredList.includes(id);
+    const currentWordRef = wordsRef.current![index];
+    const currentAnsweredList = answeredListRef.current!;
 
     if (exists) {
       setAnsweredList((prevState) => prevState.filter((word) => word !== id));
-      wordRef.current!.style.transform = `translateX(0px) translateY(0px)`;
+      currentWordRef.style.transform = `translateX(0px) translateY(0px)`;
 
       return;
     }
 
-    const wordBoundingLeft = wordRef.current!.getBoundingClientRect().left;
-    const listBoundingLeft =
-      answeredListRef.current!.getBoundingClientRect().left;
+    const wordBoundingLeft = currentWordRef.getBoundingClientRect().left;
+    const listBoundingLeft = currentAnsweredList.getBoundingClientRect().left;
 
     const left = wordBoundingLeft - listBoundingLeft;
-    const top =
-      wordRef.current!.offsetTop - answeredListRef.current!.offsetTop - 10;
+    const top = currentWordRef.offsetTop - currentAnsweredList.offsetTop - 10;
 
-    wordRef.current!.style.transform = `translateX(-${left}px) translateY(-${top}px)`;
+    currentWordRef.style.transform = `translateX(-${left}px) translateY(-${top}px)`;
 
     setTimeout(() => {
       setAnsweredList((prevState) => [...prevState, id]);
@@ -62,7 +62,7 @@ export const Sentence = ({
           ref={answeredListRef}
           className="flex flex-wrap items-center h-20 w-full border-y-2 border-neutral-200"
         >
-          {answeredList.map((word) => (
+          {answeredList.map((word, index) => (
             <div
               key={word}
               className="border-2 border-b-4 border-neutral-200 rounded-xl mr-1"
@@ -74,7 +74,7 @@ export const Sentence = ({
               <button
                 className="p-4"
                 type="button"
-                onClick={() => handleSelectWord(word)}
+                onClick={() => handleSelectWord(word, index)}
               >
                 {word}
               </button>
@@ -83,11 +83,13 @@ export const Sentence = ({
         </div>
 
         <div className="flex items-center justify-center w-full mt-12">
-          {words.map((word) => (
+          {words.map((word, index) => (
             <div key={word} className="bg-gray-200 rounded-xl z-0 mr-1">
               <div
                 className="border-2 z-10 bg-white relative border-b-4 border-neutral-200 rounded-xl "
-                ref={wordRef}
+                ref={(ref) => {
+                  ref ? (wordsRef.current![index] = ref) : null;
+                }}
                 style={{
                   transition: 'all 0.3s ease-in-out',
                   height: '60px',
@@ -96,7 +98,7 @@ export const Sentence = ({
                 <button
                   className="p-4"
                   type="button"
-                  onClick={() => handleSelectWord(word)}
+                  onClick={() => handleSelectWord(word, index)}
                 >
                   {word}
                 </button>
