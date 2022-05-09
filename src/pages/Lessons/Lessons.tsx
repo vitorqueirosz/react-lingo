@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Language, Level } from '@/pages';
 import { lessons } from './data/lessons';
 import { Sentence, SentenceProps } from './components';
+import { Button } from '@/components';
 
 type LessonType = 'listening' | 'sentence' | 'images' | 'completeWord';
 
@@ -28,22 +29,35 @@ export const Lessons = () => {
   const Lesson = renders[step.type as LessonType](step);
 
   return (
-    <div className="flex justify-center items-center flex-col pt-12 w-full">
-      <div className="flex items-center w-full justify-center">
-        <button className="mr-2" type="button">
-          <IcClose />
-        </button>
+    <div className="flex flex-col h-screen justify-between items-center w-full">
+      <div className="flex items-center flex-col pt-12 w-full flex-1 h-full">
+        <div className="flex items-center w-full justify-center">
+          <button className="mr-2" type="button">
+            <IcClose />
+          </button>
 
-        <div className="relative w-6/12 flex items-center justify-center">
-          <div className="relative bg-gray-300 h-4 w-full rounded-md" />
-          <div
-            className="absolute bg-green-500 h-4 w-full rounded-md left-0 transition-all ease-in-out duration-300"
-            style={{ width: '20%' }}
-          />
+          <div className="relative w-7/12 flex items-center justify-center">
+            <div className="relative bg-gray-300 h-4 w-full rounded-md" />
+            <div
+              className="absolute bg-green-500 h-4 w-full rounded-md left-0 transition-all ease-in-out duration-300"
+              style={{ width: '20%' }}
+            />
+          </div>
         </div>
-      </div>
 
-      {Lesson}
+        {Lesson}
+      </div>
+      <footer className="border-2 border-neutral-200 h-36 w-full">
+        <div className="flex m-auto justify-between items-center h-full w-full max-w-3xl">
+          <Button color="secondary" size="large" upperCase>
+            Skip
+          </Button>
+
+          <Button size="large" upperCase>
+            Check
+          </Button>
+        </div>
+      </footer>
     </div>
   );
 };
