@@ -7,7 +7,7 @@ type ButtonProps = {
 } & AnchorHTMLAttributes<HTMLAnchorElement>;
 
 export const baseStyle =
-  'bg-green-500 rounded-md p-1 px-3 text-white border-2 border-green-600 hover:bg-green-600 transition ease-in duration-300';
+  'bg-green-500 font-bold rounded-xl p-2 px-4 text-white border-2 border-b-4 border-green-600 hover:bg-green-600 transition ease-in duration-300';
 
 const ExternalLink = ({ children, ...props }: ButtonProps) => (
   <a className={baseStyle} {...props} target="_blank" rel="noreferrer noopener">
