@@ -14,10 +14,10 @@ export const Sentence = ({
   sentence,
 }: SentenceProps) => {
   return (
-    <div className="flex justify-center flex-col w-full max-w-screen-sm  pt-20">
+    <div className="flex justify-center flex-col w-full max-w-screen-sm h-full">
       <h1 className="font-bold text-3xl text-slate-600">{title}</h1>
 
-      <div className="flex items-center">
+      <div className="flex items-center mt-6">
         <div className="h-44 ml-4">
           <Image />
         </div>
@@ -33,7 +33,7 @@ export const Sentence = ({
         {words.map((word) => (
           <div
             key={word}
-            className="border-2 border-neutral-200 rounded-xl mr-2"
+            className="border-2 border-b-4 border-neutral-200 rounded-xl mr-2"
           >
             <button className="p-4" type="button">
               {word}
