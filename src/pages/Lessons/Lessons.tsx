@@ -2,8 +2,8 @@ import { IcClose } from '@/assets/icons';
 import { Language, Level } from '@/pages';
 import { lessons } from './data/lessons';
 import { Sentence, SentenceProps } from './components';
-import { Button } from '@/components';
-import { useParams } from '@/hooks/useParams';
+import { useLessons } from '@/contexts';
+import { useParams } from '@/hooks';
 
 type LessonType = 'listening' | 'sentence' | 'images' | 'completeWord';
 
@@ -19,10 +19,11 @@ const renders: Record<LessonType, Element> = {
 };
 
 export const Lessons = () => {
+  const { currentStep } = useLessons();
   const { language, level } = useParams(['language', 'level']) as Result;
 
   const steps = lessons[language][level].steps;
-  const step = steps[0];
+  const step = steps[currentStep];
 
   const Lesson = renders[step.type as LessonType](step);
 
@@ -45,17 +46,6 @@ export const Lessons = () => {
 
         {Lesson}
       </div>
-      <footer className="border-2 border-neutral-200 h-36 w-full">
-        <div className="flex m-auto justify-between items-center h-full w-full max-w-3xl">
-          <Button color="secondary" size="large" upperCase>
-            Skip
-          </Button>
-
-          <Button size="large" upperCase>
-            Check
-          </Button>
-        </div>
-      </footer>
     </div>
   );
 };
