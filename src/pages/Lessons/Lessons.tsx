@@ -1,13 +1,15 @@
 import { IcClose } from '@/assets/icons';
-import { useLocation } from 'react-router-dom';
 import { Language, Level } from '@/pages';
 import { lessons } from './data/lessons';
 import { Sentence, SentenceProps } from './components';
 import { Button } from '@/components';
+import { useParams } from '@/hooks/useParams';
 
 type LessonType = 'listening' | 'sentence' | 'images' | 'completeWord';
 
 type Element = <T>(props: T) => JSX.Element;
+
+type Result = { language: Language; level: Level };
 
 const renders: Record<LessonType, Element> = {
   listening: () => <div className="bg-gray-300 w-6/12 h-4"></div>,
@@ -17,11 +19,7 @@ const renders: Record<LessonType, Element> = {
 };
 
 export const Lessons = () => {
-  const params = useLocation();
-
-  const [language, level] = ['language', 'level'].map((key) =>
-    new URLSearchParams(params.search).get(key),
-  ) as [Language, Level];
+  const { language, level } = useParams(['language', 'level']) as Result;
 
   const steps = lessons[language][level].steps;
   const step = steps[0];
