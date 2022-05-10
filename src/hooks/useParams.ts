@@ -1,9 +1,12 @@
 import { useLocation } from 'react-router-dom';
+import { F } from 'ts-toolbelt';
 
-type Params = string | string[];
+type Params = string | string[] | unknown;
 
-export const useParams = (keys: Params) => {
-  let result: unknown | string;
+type Result<T extends Params> = T extends string ? string : string[];
+
+export const useParams = <TParams extends Params>(keys: F.Narrow<TParams>) => {
+  let result: Result<TParams>;
 
   const params = useLocation();
 
@@ -16,11 +19,11 @@ export const useParams = (keys: Params) => {
       return (acc = { ...acc, [key]: value });
     }, {});
 
-    result = paramsResult;
+    result = paramsResult as Result<TParams>;
   } else {
-    const keyResult = new URLSearchParams(params.search).get(keys);
+    const keyResult = new URLSearchParams(params.search).get(keys as string);
 
-    result = keyResult;
+    result = keyResult as Result<TParams>;
   }
 
   return result;
