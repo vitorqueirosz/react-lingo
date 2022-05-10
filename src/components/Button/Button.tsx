@@ -21,12 +21,20 @@ const colors = {
   },
 };
 
+const disabledStyles = {
+  backgroundColor: '#ddd',
+  color: '#999',
+  borderColor: 'transparent',
+  cursor: 'default',
+};
+
 export const Button = ({
   children,
   icon,
   size = 'normal',
   color,
   upperCase = false,
+  disabled,
   ...props
 }: ButtonProps) => {
   return (
@@ -37,6 +45,7 @@ export const Button = ({
       style={{
         width: sizes[size],
         ...(color && { ...colors[color] }),
+        ...(disabled && { ...disabledStyles }),
         textTransform: upperCase ? 'uppercase' : 'initial',
       }}
     >
