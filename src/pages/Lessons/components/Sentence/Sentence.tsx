@@ -1,7 +1,8 @@
+import { ImgHTMLAttributes, useRef, useState } from 'react';
 import { useParams } from '@/hooks/useParams';
 import { Language } from '@/pages/Home/Home';
 import { setSpeakByWord } from '@/utils/speech';
-import { ImgHTMLAttributes, useRef, useState } from 'react';
+import { IcSound } from '@/assets/icons';
 
 export type SentenceProps = {
   title: string;
@@ -97,6 +98,8 @@ export const Sentence = ({
     }, 200);
   };
 
+  const handleSelectSentence = () => setSpeakByWord(language, sentence);
+
   return (
     <div className="flex justify-center flex-col w-full max-w-screen-sm h-full">
       <h1 className="font-bold text-3xl text-slate-600">{title}</h1>
@@ -106,7 +109,10 @@ export const Sentence = ({
           <Image />
         </div>
 
-        <div className="border-2 border-neutral-200 p-4 rounded-md ml-4">
+        <div className="flex items-center border-2 border-neutral-200 rounded-md ml-4 p-4">
+          <button type="button" onClick={handleSelectSentence}>
+            <IcSound className="w-8 mr-3" />
+          </button>
           <span>{sentence}</span>
         </div>
       </div>
