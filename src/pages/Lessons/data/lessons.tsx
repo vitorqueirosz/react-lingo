@@ -10,6 +10,7 @@ export const lessons = {
           image: () => <Woman />,
           words: ['woman', 'boy', 'I', 'A', 'man'],
           sentence: 'Um homem',
+          answer: 'a man',
         },
       ],
     },
