@@ -7,6 +7,11 @@ export type SentenceProps = {
   sentence: string;
 };
 
+const defaultStyles = {
+  transition: 'transform 0.2s ease-in-out',
+  height: '60px',
+};
+
 export const Sentence = ({
   title,
   image: Image,
@@ -16,6 +21,7 @@ export const Sentence = ({
   const [answeredList, setAnsweredList] = useState<string[]>([]);
 
   const wordsRef = useRef<HTMLDivElement[] | null>([]);
+  const answeredWordsRef = useRef<HTMLDivElement[] | null>([]);
   const answeredListRef = useRef<HTMLDivElement>(null);
 
   const handleSelectWord = (id: string, index: number) => {
@@ -24,23 +30,65 @@ export const Sentence = ({
     const currentAnsweredList = answeredListRef.current!;
 
     if (exists) {
-      setAnsweredList((prevState) => prevState.filter((word) => word !== id));
-      currentWordRef.style.transform = `translateX(0px) translateY(0px)`;
+      const wordIndex = wordsRef.current!.findIndex(
+        (word) => word.innerText === id,
+      );
+
+      const currentAnsweredRef = answeredWordsRef.current![index];
+      const currentWordRef = wordsRef.current![wordIndex];
+
+      const lastChildrenFromAnswered =
+        currentAnsweredRef.lastElementChild as HTMLButtonElement;
+
+      const lastChildrenFromWord =
+        currentWordRef.lastElementChild as HTMLButtonElement;
+
+      const currentWordLeft = currentWordRef.offsetLeft;
+      const currentAnsweredLeft = currentAnsweredRef.offsetLeft;
+      const left = currentWordLeft - currentAnsweredLeft;
+
+      const currentWordTop = currentWordRef.offsetTop;
+      const currentAnsweredTop = currentAnsweredRef.offsetTop;
+      const top = currentWordTop - currentAnsweredTop;
+
+      currentAnsweredRef.style.transform = `translateX(${left}px) translateY(${top}px)`;
+      lastChildrenFromAnswered.disabled = true;
+
+      setTimeout(() => {
+        currentWordRef.style.opacity = '1';
+        lastChildrenFromWord.disabled = false;
+        setAnsweredList((prevState) => prevState.filter((word) => word !== id));
+      }, 200);
 
       return;
     }
 
-    const wordBoundingLeft = currentWordRef.getBoundingClientRect().left;
-    const listBoundingLeft = currentAnsweredList.getBoundingClientRect().left;
+    const lastChildrenFromWord =
+      currentWordRef.lastElementChild as HTMLButtonElement;
 
-    const left = wordBoundingLeft - listBoundingLeft;
+    const wordBoundingLeft = currentWordRef.offsetLeft;
+    const listBoundingLeft = currentAnsweredList.offsetLeft;
+
+    const lastChildrenOnList = currentAnsweredList.lastElementChild;
+    const lastChildrenBoundings = lastChildrenOnList?.getBoundingClientRect();
+
+    const dynamicLeft =
+      lastChildrenBoundings &&
+      lastChildrenBoundings.left + lastChildrenBoundings.width + 4;
+
+    const listLeft = dynamicLeft || listBoundingLeft;
+
+    const left = wordBoundingLeft - listLeft;
     const top = currentWordRef.offsetTop - currentAnsweredList.offsetTop - 10;
 
     currentWordRef.style.transform = `translateX(-${left}px) translateY(-${top}px)`;
+    lastChildrenFromWord.disabled = true;
 
     setTimeout(() => {
+      currentWordRef.style.opacity = '0';
+      currentWordRef.style.transform = `translateX(0px) translateY(0px)`;
       setAnsweredList((prevState) => [...prevState, id]);
-    }, 300);
+    }, 200);
   };
 
   return (
@@ -64,12 +112,12 @@ export const Sentence = ({
         >
           {answeredList.map((word, index) => (
             <div
-              key={word}
-              className="border-2 border-b-4 border-neutral-200 rounded-xl mr-1"
-              style={{
-                transition: 'all 0.5s ease-in-out',
-                height: '60px',
+              ref={(ref) => {
+                ref ? (answeredWordsRef.current![index] = ref) : null;
               }}
+              key={word}
+              className="border-2 border-b-4 border-neutral-200 rounded-xl mr-1 z-10 bg-white"
+              style={defaultStyles}
             >
               <button
                 className="p-4"
@@ -90,10 +138,7 @@ export const Sentence = ({
                 ref={(ref) => {
                   ref ? (wordsRef.current![index] = ref) : null;
                 }}
-                style={{
-                  transition: 'all 0.3s ease-in-out',
-                  height: '60px',
-                }}
+                style={defaultStyles}
               >
                 <button
                   className="p-4"
