@@ -1,3 +1,6 @@
+import { useParams } from '@/hooks/useParams';
+import { Language } from '@/pages/Home/Home';
+import { setSpeakByWord } from '@/utils/speech';
 import { ImgHTMLAttributes, useRef, useState } from 'react';
 
 export type SentenceProps = {
@@ -19,6 +22,7 @@ export const Sentence = ({
   sentence,
 }: SentenceProps) => {
   const [answeredList, setAnsweredList] = useState<string[]>([]);
+  const language = useParams('language') as Language;
 
   const wordsRef = useRef<HTMLDivElement[] | null>([]);
   const answeredWordsRef = useRef<HTMLDivElement[] | null>([]);
@@ -28,6 +32,8 @@ export const Sentence = ({
     const exists = answeredList.includes(id);
     const currentWordRef = wordsRef.current![index];
     const currentAnsweredList = answeredListRef.current!;
+
+    setSpeakByWord(language, id);
 
     if (exists) {
       const wordIndex = wordsRef.current!.findIndex(

@@ -18,7 +18,7 @@ export const setVoiceByLanguage = (language: Language) => {
   return speech;
 };
 
-export const setSpeech = (language: Language, text: string) => {
+export const setSpeakByWord = (language: Language, text: string) => {
   const speech = setVoiceByLanguage(language);
   speech.text = text;
 
