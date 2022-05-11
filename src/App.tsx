@@ -6,12 +6,12 @@ import { LessonsProvider } from './contexts';
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <LessonsProvider>
+      <LessonsProvider>
+        <Routes>
           <Route index element={<Home />} />
           <Route path={PATHS.LESSONS} element={<Lessons />} />
-        </LessonsProvider>
-      </Routes>
+        </Routes>
+      </LessonsProvider>
     </BrowserRouter>
   );
 }

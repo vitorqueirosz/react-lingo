@@ -9,7 +9,10 @@ export const lessons = {
           title: 'Write this in English',
           image: () => <Woman />,
           words: ['woman', 'boy', 'I', 'A', 'man'],
-          sentence: 'Um homem',
+          sentence: {
+            language: 'pt',
+            value: 'Um homem',
+          },
           answer: 'a man',
         },
       ],
