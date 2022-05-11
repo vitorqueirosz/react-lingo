@@ -1,15 +1,26 @@
-import { ImgHTMLAttributes, useRef, useState } from 'react';
+import {
+  ImgHTMLAttributes,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+
 import { useParams } from '@/hooks/useParams';
 import { Language } from '@/pages/Home/Home';
 import { setSpeakByWord } from '@/utils/speech';
 import { IcSound } from '@/assets/icons';
 import { Footer } from '@/components';
+import { useLessons } from '@/contexts';
 
 export type SentenceProps = {
   title: string;
   image: (props: ImgHTMLAttributes<HTMLImageElement>) => JSX.Element;
   words: string[];
-  sentence: string;
+  sentence: {
+    language: Language;
+    value: string;
+  };
   answer: string;
 };
 
@@ -25,18 +36,30 @@ export const Sentence = ({
   sentence,
   answer,
 }: SentenceProps) => {
+  const { setAnswersAmount } = useLessons();
+
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
   const [isCorrectAnswer, setIsCorrectAnswer] = useState<boolean | null>(null);
 
   const wordsRef = useRef<HTMLDivElement[] | null>([]);
   const answeredWordsRef = useRef<HTMLDivElement[] | null>([]);
   const answeredListRef = useRef<HTMLDivElement>(null);
+  const mounted = useRef(false);
 
   const language = useParams('language') as Language;
 
+  const hasAnswer = typeof isCorrectAnswer === 'boolean';
+
   const handleCheckAnswer = () => {
     const joinnedWords = selectedWords.join(' ').toLowerCase();
-    setIsCorrectAnswer(joinnedWords === answer);
+    const isAnswerCorrect = joinnedWords === answer;
+    const key = isAnswerCorrect ? 'correct' : 'wrong';
+
+    setIsCorrectAnswer(isAnswerCorrect);
+    setAnswersAmount((prevState) => ({
+      ...prevState,
+      [key]: prevState[key] + 1,
+    }));
   };
 
   const handleSelectWord = (id: string, index: number) => {
@@ -110,7 +133,35 @@ export const Sentence = ({
     }, 200);
   };
 
-  const handleSelectSentence = () => setSpeakByWord(language, sentence);
+  const handleSelectSentence = useCallback(() => {
+    const { language, value } = sentence;
+
+    setSpeakByWord(language, value);
+  }, [sentence]);
+
+  useEffect(() => {
+    const handleSpeakSentenceOnlyOnce = () => {
+      const voices = speechSynthesis.getVoices();
+
+      if (voices.length && !mounted.current) {
+        mounted.current = true;
+
+        handleSelectSentence();
+      }
+    };
+
+    speechSynthesis.addEventListener(
+      'voiceschanged',
+      handleSpeakSentenceOnlyOnce,
+    );
+
+    return () => {
+      speechSynthesis.removeEventListener(
+        'voiceschanged',
+        handleSpeakSentenceOnlyOnce,
+      );
+    };
+  }, [handleSelectSentence, language]);
 
   return (
     <>
@@ -126,7 +177,7 @@ export const Sentence = ({
             <button type="button" onClick={handleSelectSentence}>
               <IcSound className="w-8 mr-3" />
             </button>
-            <span>{sentence}</span>
+            <span>{sentence.value}</span>
           </div>
         </div>
 
@@ -148,6 +199,7 @@ export const Sentence = ({
                   className="p-4"
                   type="button"
                   onClick={() => handleSelectWord(word, index)}
+                  disabled={hasAnswer}
                 >
                   {word}
                 </button>
@@ -169,6 +221,7 @@ export const Sentence = ({
                     className="p-4"
                     type="button"
                     onClick={() => handleSelectWord(word, index)}
+                    disabled={hasAnswer}
                   >
                     {word}
                   </button>
@@ -182,6 +235,8 @@ export const Sentence = ({
         handleCheckAnswer={handleCheckAnswer}
         disabled={!selectedWords.length}
         isCorrectAnswer={isCorrectAnswer}
+        answer={answer}
+        hasAnswer={hasAnswer}
       />
     </>
   );
