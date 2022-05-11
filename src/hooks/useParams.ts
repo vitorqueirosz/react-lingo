@@ -1,9 +1,11 @@
 import { useLocation } from 'react-router-dom';
 import { F } from 'ts-toolbelt';
 
-type Params = string | string[] | unknown;
+type Params = string | string[];
 
-type Result<T extends Params> = T extends string ? string : string[];
+type Result<T extends Params> = T extends string
+  ? string
+  : Record<T[number], string>;
 
 export const useParams = <TParams extends Params>(keys: F.Narrow<TParams>) => {
   let result: Result<TParams>;
