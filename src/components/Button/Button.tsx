@@ -6,6 +6,7 @@ type ButtonProps = {
   size?: 'large' | 'normal';
   color?: 'secondary';
   upperCase?: boolean;
+  hasError?: boolean;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 const sizes = {
@@ -28,6 +29,12 @@ const disabledStyles = {
   cursor: 'default',
 };
 
+const errorStyles = {
+  backgroundColor: '#D45454',
+  borderColor: '#BE3030',
+  transitionDuration: 'initial',
+};
+
 export const Button = ({
   children,
   icon,
@@ -35,6 +42,7 @@ export const Button = ({
   color,
   upperCase = false,
   disabled,
+  hasError,
   ...props
 }: ButtonProps) => {
   return (
@@ -45,9 +53,11 @@ export const Button = ({
       style={{
         width: sizes[size],
         ...(color && { ...colors[color] }),
+        ...(hasError && { ...errorStyles }),
         ...(disabled && { ...disabledStyles }),
         textTransform: upperCase ? 'uppercase' : 'initial',
       }}
+      disabled={disabled}
     >
       {icon && icon}
       {children}
