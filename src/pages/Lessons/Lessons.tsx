@@ -1,7 +1,14 @@
 import { IcClose } from '@/assets/icons';
 import { Language, Level } from '@/pages';
 import { lessons } from './data/lessons';
-import { Sentence, SentenceProps, Image, ImageProps } from './components';
+import {
+  Sentence,
+  SentenceProps,
+  Image,
+  ImageProps,
+  Listening,
+  ListeningProps,
+} from './components';
 import { useLessons } from '@/contexts';
 import { useParams } from '@/hooks';
 
@@ -12,7 +19,7 @@ type Element = <T>(props: T) => JSX.Element;
 type Result = { language: Language; level: Level };
 
 const renders: Record<LessonType, Element> = {
-  listening: () => <div className="bg-gray-300 w-6/12 h-4"></div>,
+  listening: (props: unknown) => <Listening {...(props as ListeningProps)} />,
   sentence: (props: unknown) => <Sentence {...(props as SentenceProps)} />,
   image: (props: unknown) => <Image {...(props as ImageProps)} />,
   completeWord: () => <div className="bg-gray-300 w-6/12 h-4"></div>,
