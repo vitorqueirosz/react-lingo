@@ -1,11 +1,11 @@
 import { IcClose } from '@/assets/icons';
 import { Language, Level } from '@/pages';
 import { lessons } from './data/lessons';
-import { Sentence, SentenceProps } from './components';
+import { Sentence, SentenceProps, Image, ImageProps } from './components';
 import { useLessons } from '@/contexts';
 import { useParams } from '@/hooks';
 
-type LessonType = 'listening' | 'sentence' | 'images' | 'completeWord';
+type LessonType = 'listening' | 'sentence' | 'image' | 'completeWord';
 
 type Element = <T>(props: T) => JSX.Element;
 
@@ -14,7 +14,7 @@ type Result = { language: Language; level: Level };
 const renders: Record<LessonType, Element> = {
   listening: () => <div className="bg-gray-300 w-6/12 h-4"></div>,
   sentence: (props: unknown) => <Sentence {...(props as SentenceProps)} />,
-  images: () => <div className="bg-gray-300 w-6/12 h-4"></div>,
+  image: (props: unknown) => <Image {...(props as ImageProps)} />,
   completeWord: () => <div className="bg-gray-300 w-6/12 h-4"></div>,
 };
 
@@ -26,6 +26,9 @@ export const Lessons = () => {
   const step = steps[currentStep];
 
   const Lesson = renders[step.type as LessonType](step);
+
+  const stepsAmount = steps.length;
+  const percent = (currentStep / stepsAmount) * 100;
 
   return (
     <div className="flex flex-col h-screen justify-between items-center w-full">
@@ -39,7 +42,7 @@ export const Lessons = () => {
             <div className="relative bg-gray-300 h-4 w-full rounded-md" />
             <div
               className="absolute bg-green-500 h-4 w-full rounded-md left-0 transition-all ease-in-out duration-300"
-              style={{ width: '20%' }}
+              style={{ width: `${percent}%` }}
             />
           </div>
         </div>
