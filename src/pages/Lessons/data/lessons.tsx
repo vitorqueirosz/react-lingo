@@ -1,12 +1,31 @@
-import { Woman } from '@/assets/images';
+import { Boy, Man, Woman, WomanSmile } from '@/assets/images';
 
 export const lessons = {
   en: {
     beginner: {
       steps: [
         {
+          type: 'image',
+          title: 'Qual desses é o “menino”?',
+          images: [
+            {
+              image: () => <Man />,
+              title: 'the man',
+            },
+            {
+              image: () => <WomanSmile />,
+              title: 'the woman',
+            },
+            {
+              image: () => <Boy />,
+              title: 'the boy',
+            },
+          ],
+          answer: 'the boy',
+        },
+        {
           type: 'sentence',
-          title: 'Write this in English',
+          title: 'Escreva isso em portugues',
           image: () => <Woman />,
           words: ['woman', 'boy', 'I', 'A', 'man'],
           sentence: {
@@ -14,6 +33,13 @@ export const lessons = {
             value: 'Um homem',
           },
           answer: 'a man',
+        },
+
+        {
+          type: 'listening',
+          title: 'Selecione o que voce ouve',
+          words: ['Sou', 'pao', 'eu', 'fico', 'menino', 'um', 'ficas'],
+          answer: 'sou um menino',
         },
       ],
     },
