@@ -18,9 +18,14 @@ export const setVoiceByLanguage = (language: Language) => {
   return speech;
 };
 
-export const setSpeakByWord = (language: Language, text: string) => {
+export const setSpeakByWord = (
+  language: Language,
+  text: string,
+  speed?: number,
+) => {
   const speech = setVoiceByLanguage(language);
   speech.text = text;
+  speech.rate = speed || 1;
 
   window.speechSynthesis.speak(speech);
 };
