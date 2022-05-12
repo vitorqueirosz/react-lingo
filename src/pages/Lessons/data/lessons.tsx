@@ -1,9 +1,30 @@
+import { IcSlowSound, IcSound } from '@/assets/icons';
 import { Boy, Man, Woman, WomanSmile } from '@/assets/images';
 
 export const lessons = {
   en: {
     beginner: {
       steps: [
+        {
+          type: 'listening',
+          title: 'Selecione o que voce ouve',
+          words: ['have', 'one', 'drink', 'a', 'women', 'woman', 'man'],
+          answer: 'a woman',
+          sentence: {
+            language: 'en',
+            value: 'a woman',
+          },
+          images: [
+            {
+              image: () => <IcSound className="text-white h-10 w-28" />,
+              speed: 1,
+            },
+            {
+              image: () => <IcSlowSound />,
+              speed: 0.5,
+            },
+          ],
+        },
         {
           type: 'image',
           title: 'Qual desses é o “menino”?',
@@ -25,7 +46,7 @@ export const lessons = {
         },
         {
           type: 'sentence',
-          title: 'Escreva isso em portugues',
+          title: 'Escreva isso em ingles',
           image: () => <Woman />,
           words: ['woman', 'boy', 'I', 'A', 'man'],
           sentence: {
@@ -33,13 +54,6 @@ export const lessons = {
             value: 'Um homem',
           },
           answer: 'a man',
-        },
-
-        {
-          type: 'listening',
-          title: 'Selecione o que voce ouve',
-          words: ['Sou', 'pao', 'eu', 'fico', 'menino', 'um', 'ficas'],
-          answer: 'sou um menino',
         },
       ],
     },
