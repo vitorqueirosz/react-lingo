@@ -46,13 +46,64 @@ export const lessons = {
         },
         {
           type: 'sentence',
-          title: 'Escreva isso em ingles',
+          title: 'Write this in english',
           image: () => <Woman />,
           words: ['woman', 'boy', 'I', 'A', 'man'],
           sentence: {
             language: 'pt',
             value: 'Um homem',
           },
+          answer: 'a man',
+        },
+        {
+          type: 'matchWords',
+          title: 'Select the matching pairs',
+          words: [
+            [
+              {
+                value: 'menino',
+                ref: 'boy',
+              },
+              {
+                value: 'mulher',
+                ref: 'woman',
+              },
+              {
+                value: 'a',
+                ref: 'uma',
+              },
+              {
+                value: 'eu',
+                ref: 'I',
+              },
+              {
+                value: 'homem',
+                ref: 'man',
+              },
+            ],
+            [
+              {
+                value: 'woman',
+                ref: 'mulher',
+              },
+              {
+                value: 'boy',
+                ref: 'menino',
+              },
+              {
+                value: 'I',
+                ref: 'eu',
+              },
+              {
+                value: 'A',
+                ref: 'uma',
+              },
+              {
+                value: 'man',
+                ref: 'homem',
+              },
+            ],
+          ],
           answer: 'a man',
         },
       ],
