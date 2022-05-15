@@ -8,11 +8,13 @@ import {
   ImageProps,
   Listening,
   ListeningProps,
+  MatchWordsProps,
+  MatchWords,
 } from './components';
 import { useLessons } from '@/contexts';
 import { useParams } from '@/hooks';
 
-type LessonType = 'listening' | 'sentence' | 'image' | 'completeWord';
+type LessonType = 'listening' | 'sentence' | 'image' | 'matchWords';
 
 type Element = <T>(props: T) => JSX.Element;
 
@@ -22,7 +24,9 @@ const renders: Record<LessonType, Element> = {
   listening: (props: unknown) => <Listening {...(props as ListeningProps)} />,
   sentence: (props: unknown) => <Sentence {...(props as SentenceProps)} />,
   image: (props: unknown) => <Image {...(props as ImageProps)} />,
-  completeWord: () => <div className="bg-gray-300 w-6/12 h-4"></div>,
+  matchWords: (props: unknown) => (
+    <MatchWords {...(props as MatchWordsProps)} />
+  ),
 };
 
 export const Lessons = () => {
