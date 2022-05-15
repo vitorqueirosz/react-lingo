@@ -6,7 +6,7 @@ type FooterProps = {
   handleCheckAnswer: () => void;
   disabled: boolean;
   isCorrectAnswer: boolean | null;
-  answer: string;
+  answer?: string;
   hasAnswer: boolean;
 };
 
