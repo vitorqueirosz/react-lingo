@@ -1,12 +1,15 @@
+import { createContext, useCallback, useContext, useState } from 'react';
 import { WithChildren } from '@/types/global';
-import { createContext, Dispatch, useContext, useState } from 'react';
 
-type AnswersAmount = Record<string, number>;
+type AnswersAmount = {
+  wrongs: number;
+  corrects: number;
+};
 
 type ContextDataProps = {
   currentStep: number;
   answersAmount: AnswersAmount;
-  setAnswersAmount: Dispatch<React.SetStateAction<AnswersAmount>>;
+  handleAnswerAmount: (isAnswerCorrect: boolean) => void;
   handleNextStep: () => void;
 };
 
@@ -16,7 +19,7 @@ const defaultContextValues = {
     wrongs: 0,
     corrects: 0,
   },
-  setAnswersAmount: () => undefined,
+  handleAnswerAmount: () => undefined,
   handleNextStep: () => undefined,
 };
 
@@ -30,12 +33,21 @@ export const LessonsProvider = ({ children }: WithChildren) => {
     defaultContextValues.answersAmount,
   );
 
+  const handleAnswerAmount = useCallback((isAnswerCorrect: boolean) => {
+    const key = isAnswerCorrect ? 'corrects' : 'wrongs';
+
+    setAnswersAmount((prevState) => ({
+      ...prevState,
+      [key]: prevState[key] + 1,
+    }));
+  }, []);
+
   const handleNextStep = () => setCurrentStep((prevState) => prevState + 1);
 
   const value = {
     currentStep,
     answersAmount,
-    setAnswersAmount,
+    handleAnswerAmount,
     handleNextStep,
   };
 

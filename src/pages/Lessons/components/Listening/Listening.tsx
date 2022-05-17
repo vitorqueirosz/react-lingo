@@ -23,7 +23,7 @@ export const Listening = ({
   sentence,
   images,
 }: ListeningProps) => {
-  const { setAnswersAmount } = useLessons();
+  const { handleAnswerAmount } = useLessons();
 
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
   const [isCorrectAnswer, setIsCorrectAnswer] = useState<boolean | null>(null);
@@ -33,13 +33,9 @@ export const Listening = ({
   const handleCheckAnswer = () => {
     const joinnedWords = selectedWords.join(' ').toLowerCase();
     const isAnswerCorrect = joinnedWords === answer;
-    const key = isAnswerCorrect ? 'correct' : 'wrong';
 
     setIsCorrectAnswer(isAnswerCorrect);
-    setAnswersAmount((prevState) => ({
-      ...prevState,
-      [key]: prevState[key] + 1,
-    }));
+    handleAnswerAmount(isAnswerCorrect);
   };
 
   const handleSpeakSentence = (speed: number) => {

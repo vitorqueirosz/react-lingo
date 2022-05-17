@@ -15,7 +15,7 @@ export type ImageProps = {
 };
 
 export const Image = ({ title, images, answer }: ImageProps) => {
-  const { setAnswersAmount } = useLessons();
+  const { handleAnswerAmount } = useLessons();
   const language = useParams('language') as Language;
 
   const [isCorrectAnswer, setIsCorrectAnswer] = useState<boolean | null>(null);
@@ -30,13 +30,9 @@ export const Image = ({ title, images, answer }: ImageProps) => {
 
   const handleCheckAnswer = () => {
     const isAnswerCorrect = selectedWord === answer;
-    const key = isAnswerCorrect ? 'correct' : 'wrong';
 
     setIsCorrectAnswer(isAnswerCorrect);
-    setAnswersAmount((prevState) => ({
-      ...prevState,
-      [key]: prevState[key] + 1,
-    }));
+    handleAnswerAmount(isAnswerCorrect);
   };
 
   const handleSelectWord = (word: string) => {
