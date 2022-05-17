@@ -3,7 +3,7 @@ import { Button } from '@/components';
 import { IcBorderClose, IcCheck } from '@/assets/icons';
 
 type FooterProps = {
-  handleCheckAnswer: () => void;
+  handleCheckAnswer?: () => void;
   disabled: boolean;
   isCorrectAnswer: boolean | null;
   answer?: string;
