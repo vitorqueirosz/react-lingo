@@ -1,10 +1,4 @@
-import {
-  ImgHTMLAttributes,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { ImgHTMLAttributes, useCallback, useRef, useState } from 'react';
 
 import { useParams } from '@/hooks/useParams';
 import { Language } from '@/pages/Home/Home';
@@ -12,6 +6,7 @@ import { setSpeakByWord } from '@/utils/speech';
 import { IcSound } from '@/assets/icons';
 import { Footer, WordsList } from '@/components';
 import { useLessons } from '@/contexts';
+import { useSetVoiceOnMount } from '@/hooks/useSetVoiceOnMount';
 
 export type SentenceProps = {
   title: string;
@@ -37,27 +32,23 @@ export const Sentence = ({
   answer,
 }: SentenceProps) => {
   const language = useParams('language') as Language;
-  const { setAnswersAmount } = useLessons();
+  const { handleAnswerAmount } = useLessons();
 
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
   const [isCorrectAnswer, setIsCorrectAnswer] = useState<boolean | null>(null);
 
   const buttonRef = useRef<HTMLButtonElement | null>(null);
 
-  const mounted = useRef(false);
+  useSetVoiceOnMount(language, sentence.value);
 
   const hasAnswer = typeof isCorrectAnswer === 'boolean';
 
   const handleCheckAnswer = () => {
     const joinnedWords = selectedWords.join(' ').toLowerCase();
     const isAnswerCorrect = joinnedWords === answer;
-    const key = isAnswerCorrect ? 'correct' : 'wrong';
 
     setIsCorrectAnswer(isAnswerCorrect);
-    setAnswersAmount((prevState) => ({
-      ...prevState,
-      [key]: prevState[key] + 1,
-    }));
+    handleAnswerAmount(isAnswerCorrect);
   };
 
   const handleSelectedWords = (words: string[]) => setSelectedWords(words);
@@ -67,36 +58,6 @@ export const Sentence = ({
 
     setSpeakByWord(language, value);
   }, [sentence]);
-
-  useEffect(() => {
-    const handleSpeakSentenceOnlyOnce = () => {
-      const voices = speechSynthesis.getVoices();
-
-      if (voices.length && !mounted.current) {
-        mounted.current = true;
-
-        handleSelectSentence();
-      }
-    };
-
-    if ('voiceschanged' in window.speechSynthesis) {
-      window.speechSynthesis.addEventListener(
-        'voiceschanged',
-        handleSpeakSentenceOnlyOnce,
-      );
-    } else {
-      handleSpeakSentenceOnlyOnce();
-    }
-
-    return () => {
-      if ('voiceschanged' in window.speechSynthesis) {
-        window.speechSynthesis.removeEventListener(
-          'voiceschanged',
-          handleSpeakSentenceOnlyOnce,
-        );
-      }
-    };
-  }, [handleSelectSentence, language]);
 
   return (
     <>
