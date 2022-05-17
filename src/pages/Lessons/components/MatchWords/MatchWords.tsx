@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { Footer } from '@/components';
 
@@ -55,21 +55,18 @@ export const MatchWords = ({ title, words }: MatchWordsProps) => {
 
   const hasAnswer = typeof isCorrectAnswer === 'boolean';
 
-  const handleCheckAnswer = () => setIsCorrectAnswer(true);
-
   const handleSelectWord = (parentIndex: number, value: Word) => {
     const key = parentIndex === 0 ? 'left' : 'right';
     const anotherKey = parentIndex === 0 ? 'right' : 'left';
+
+    const translatedValue = match[anotherKey];
 
     setMatch((prevState) => ({
       ...prevState,
       [key]: value,
     }));
 
-    const translatedValue = match[anotherKey];
-
-    if (translatedValue.value) {
-      const hasMatch = value.ref === translatedValue.value;
+    const handleSetMatch = (hasMatch: boolean) => {
       if (hasMatch) {
         setSuccessPairs([value.value, translatedValue.value]);
         setSelectedWord('');
@@ -81,21 +78,38 @@ export const MatchWords = ({ title, words }: MatchWordsProps) => {
             value.value,
             translatedValue.value,
           ]);
-        }, 1000);
+        }, 500);
       } else {
         setErrorPairs([value.value, translatedValue.value]);
         setSelectedWord('');
 
         setTimeout(() => {
           setErrorPairs([]);
-        }, 1000);
+        }, 500);
       }
+    };
 
+    if (translatedValue.value) {
+      const hasMatch = value.ref === translatedValue.value;
+
+      handleSetMatch(hasMatch);
       setMatch(defaultMatchValue);
     } else {
       setSelectedWord(value.value);
     }
   };
+
+  const isAllSelected = useMemo(() => {
+    const wordsAmount = words.reduce((acc, word) => {
+      return (acc = acc + word.length);
+    }, 0);
+
+    return matchedWords.length === wordsAmount;
+  }, [matchedWords.length, words]);
+
+  useEffect(() => {
+    if (isAllSelected) setIsCorrectAnswer(true);
+  }, [isAllSelected]);
 
   return (
     <>
@@ -157,8 +171,7 @@ export const MatchWords = ({ title, words }: MatchWordsProps) => {
       </div>
 
       <Footer
-        handleCheckAnswer={handleCheckAnswer}
-        disabled={false}
+        disabled={!isAllSelected}
         isCorrectAnswer={isCorrectAnswer}
         hasAnswer={hasAnswer}
       />
