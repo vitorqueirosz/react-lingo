@@ -69,8 +69,8 @@ export const lessons = {
                 ref: 'woman',
               },
               {
-                value: 'a',
-                ref: 'uma',
+                value: 'uma',
+                ref: 'a',
               },
               {
                 value: 'eu',
@@ -95,7 +95,7 @@ export const lessons = {
                 ref: 'eu',
               },
               {
-                value: 'A',
+                value: 'a',
                 ref: 'uma',
               },
               {
@@ -104,7 +104,6 @@ export const lessons = {
               },
             ],
           ],
-          answer: 'a man',
         },
       ],
     },
