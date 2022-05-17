@@ -1,6 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { Footer } from '@/components';
+import { useLessons } from '@/contexts';
+import { Language } from '@/pages/Home/Home';
+import { setSpeakByWord } from '@/utils/speech';
+import { useSetVoiceOnMount } from '@/hooks/useSetVoiceOnMount';
+import { useParams } from '@/hooks';
 
 type Word = {
   value: string;
@@ -9,7 +14,10 @@ type Word = {
 
 export type MatchWordsProps = {
   title: string;
-  words: Word[][];
+  words: {
+    language: Language;
+    values: Word[];
+  }[];
 };
 
 const defaultMatchValue = {
@@ -37,6 +45,9 @@ const disabledStyles = {
 };
 
 export const MatchWords = ({ title, words }: MatchWordsProps) => {
+  const language = useParams('language') as Language;
+  const { handleAnswerAmount } = useLessons();
+
   const [match, setMatch] = useState(defaultMatchValue);
   const [isCorrectAnswer, setIsCorrectAnswer] = useState<boolean | null>(null);
   const [selectedWord, setSelectedWord] = useState('');
@@ -44,6 +55,14 @@ export const MatchWords = ({ title, words }: MatchWordsProps) => {
   const [successPairs, setSuccessPairs] = useState<string[]>([]);
   const [errorPairs, setErrorPairs] = useState<string[]>([]);
   const [matchedWords, setMatchedWords] = useState<string[]>([]);
+
+  useSetVoiceOnMount(language, '');
+
+  const defaultStyles = (word: string) => ({
+    ...(successPairs.includes(word) && successStyles),
+    ...(errorPairs.includes(word) && errorStyles),
+    ...(matchedWords.includes(word) && disabledStyles),
+  });
 
   const selectedStyles = (word: string) =>
     selectedWord === word
@@ -55,7 +74,13 @@ export const MatchWords = ({ title, words }: MatchWordsProps) => {
 
   const hasAnswer = typeof isCorrectAnswer === 'boolean';
 
-  const handleSelectWord = (parentIndex: number, value: Word) => {
+  const handleSelectWord = (
+    parentIndex: number,
+    value: Word,
+    lang: Language,
+  ) => {
+    setSpeakByWord(lang, value.value);
+
     const key = parentIndex === 0 ? 'left' : 'right';
     const anotherKey = parentIndex === 0 ? 'right' : 'left';
 
@@ -101,15 +126,18 @@ export const MatchWords = ({ title, words }: MatchWordsProps) => {
 
   const isAllSelected = useMemo(() => {
     const wordsAmount = words.reduce((acc, word) => {
-      return (acc = acc + word.length);
+      return (acc = acc + word.values.length);
     }, 0);
 
     return matchedWords.length === wordsAmount;
   }, [matchedWords.length, words]);
 
   useEffect(() => {
-    if (isAllSelected) setIsCorrectAnswer(true);
-  }, [isAllSelected]);
+    if (isAllSelected) {
+      setIsCorrectAnswer(true);
+      handleAnswerAmount(true);
+    }
+  }, [isAllSelected, handleAnswerAmount]);
 
   return (
     <>
@@ -122,19 +150,17 @@ export const MatchWords = ({ title, words }: MatchWordsProps) => {
               key={'wordsContainer' + parentIndex}
               className="flex flex-col first:mr-8"
             >
-              {words.map((word, index) => (
+              {words.values.map((word, index) => (
                 <button
                   key={word.value}
                   className={
                     'flex items-center border-2 border-b-4 border-neutral-200 rounded-xl bg-white w-64 py-2 pl-2 mb-2 cursor-pointer ' +
                     selectedStyles(word.value)
                   }
-                  onClick={() => handleSelectWord(parentIndex, word)}
-                  style={{
-                    ...(successPairs.includes(word.value) && successStyles),
-                    ...(errorPairs.includes(word.value) && errorStyles),
-                    ...(matchedWords.includes(word.value) && disabledStyles),
-                  }}
+                  onClick={() =>
+                    handleSelectWord(parentIndex, word, words.language)
+                  }
+                  style={defaultStyles(word.value)}
                   disabled={matchedWords.includes(word.value)}
                 >
                   <div
@@ -142,11 +168,7 @@ export const MatchWords = ({ title, words }: MatchWordsProps) => {
                       'border-2 border-neutral-200 flex justify-center items-center rounded-lg w-8 h-8 ml-2 ' +
                       selectedStyles(word.value)
                     }
-                    style={{
-                      ...(successPairs.includes(word.value) && successStyles),
-                      ...(errorPairs.includes(word.value) && errorStyles),
-                      ...(matchedWords.includes(word.value) && disabledStyles),
-                    }}
+                    style={defaultStyles(word.value)}
                   >
                     {index + 1}
                   </div>
@@ -155,11 +177,7 @@ export const MatchWords = ({ title, words }: MatchWordsProps) => {
                       'flex-1 text-center font-semibold mr-2 ' +
                       selectedTextStyle(word.value)
                     }
-                    style={{
-                      ...(successPairs.includes(word.value) && successStyles),
-                      ...(errorPairs.includes(word.value) && errorStyles),
-                      ...(matchedWords.includes(word.value) && disabledStyles),
-                    }}
+                    style={defaultStyles(word.value)}
                   >
                     {word.value}
                   </span>
