@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import { IcClose } from '@/assets/icons';
 import { Language, Level } from '@/pages';
 import { lessons } from './data/lessons';
@@ -13,6 +15,8 @@ import {
 } from './components';
 import { useLessons } from '@/contexts';
 import { useParams } from '@/hooks';
+import { useNavigate } from 'react-router-dom';
+import { PATHS } from '@/constants/paths';
 
 type LessonType = 'listening' | 'sentence' | 'image' | 'matchWords';
 
@@ -29,17 +33,28 @@ const renders: Record<LessonType, Element> = {
   ),
 };
 
+const resultStep = 4;
+
 export const Lessons = () => {
+  const [lessonComponent, setLessonComponent] = useState(<></>);
+
   const { currentStep } = useLessons();
   const { language, level } = useParams(['language', 'level']) as Result;
+  const navigate = useNavigate();
 
   const steps = lessons[language][level].steps;
-  const step = steps[currentStep];
-
-  const Lesson = renders[step.type as LessonType](step);
 
   const stepsAmount = steps.length;
   const percent = (currentStep / stepsAmount) * 100;
+
+  useEffect(() => {
+    if (currentStep === resultStep) return navigate(PATHS.RESULT);
+
+    const step = steps[3];
+    const lesson = renders[step.type as LessonType](step);
+
+    setLessonComponent(lesson);
+  }, [currentStep, navigate, steps]);
 
   return (
     <div className="flex flex-col h-screen justify-between items-center w-full">
@@ -58,7 +73,7 @@ export const Lessons = () => {
           </div>
         </div>
 
-        {Lesson}
+        {lessonComponent}
       </div>
     </div>
   );
