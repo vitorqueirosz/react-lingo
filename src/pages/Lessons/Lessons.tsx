@@ -50,7 +50,7 @@ export const Lessons = () => {
   useEffect(() => {
     if (currentStep === resultStep) return navigate(PATHS.RESULT);
 
-    const step = steps[3];
+    const step = steps[currentStep];
     const lesson = renders[step.type as LessonType](step);
 
     setLessonComponent(lesson);
