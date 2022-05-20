@@ -3,13 +3,14 @@ import Confetti from 'react-confetti';
 
 import { Mascot } from '@/assets/images';
 import { useLessons } from '@/contexts';
-import { Anchor } from '@/components';
-import { Icon } from '@/components/Icon/Icon';
+import { Button, Icon } from '@/components';
 import { PATHS } from '@/constants/paths';
+import { useNavigate } from 'react-router-dom';
 
 export const Result = () => {
   const [isConfettiShowing, setIsConfettiShowing] = useState(false);
-  const { answersAmount } = useLessons();
+  const { answersAmount, handleResetAnswersAmount } = useLessons();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const { corrects, wrongs } = answersAmount;
@@ -25,6 +26,11 @@ export const Result = () => {
       }, 7000);
     }
   }, [isConfettiShowing]);
+
+  const handleResetGame = () => {
+    handleResetAnswersAmount();
+    navigate(PATHS.HOME);
+  };
 
   return (
     <div className="flex justify-center items-center h-screen w-full flex-col">
@@ -56,9 +62,9 @@ export const Result = () => {
       )}
 
       <div className="flex mt-8">
-        <Anchor icon="IcReload" href={PATHS.HOME}>
+        <Button icon="IcReload" onClick={handleResetGame}>
           Play again
-        </Anchor>
+        </Button>
       </div>
     </div>
   );
