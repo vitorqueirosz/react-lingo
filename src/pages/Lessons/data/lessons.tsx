@@ -367,15 +367,114 @@ export const lessons = {
       ],
     },
   },
-  pt: {
+  es: {
     beginner: {
       steps: [
         {
           type: 'listening',
-          title: 'Write this in English',
-          image: <Woman />,
-          words: ['woman', 'boy', 'I', 'A', 'man'],
-          sentence: 'Um homem',
+          title: 'Selecione o que você ouve',
+          words: ['tener', 'uno', 'beber', 'una', 'mujeres', 'mujer', 'hombre'],
+          answer: 'una mujer',
+          sentence: {
+            language: 'es',
+            value: 'una mujer',
+          },
+          images: [
+            {
+              image: () => <IcSound className="text-white h-10 w-28" />,
+              speed: 1,
+            },
+            {
+              image: () => <IcSlowSound />,
+              speed: 0.5,
+            },
+          ],
+        },
+        {
+          type: 'image',
+          title: 'Qual desses é o “menino”?',
+          images: [
+            {
+              image: () => <Man />,
+              title: 'el hombre',
+            },
+            {
+              image: () => <WomanSmile />,
+              title: 'el mujer',
+            },
+            {
+              image: () => <Boy />,
+              title: 'el chico',
+            },
+          ],
+          answer: 'el chico',
+        },
+        {
+          type: 'sentence',
+          title: 'Escreva isso em espanhol',
+          image: () => <ManSmile />,
+          words: ['mujer', 'chico', 'el', 'yo', 'una', 'hombre'],
+          sentence: {
+            language: 'pt',
+            value: 'Um homem',
+          },
+          answer: 'el hombre',
+        },
+        {
+          type: 'matchWords',
+          title: 'Selecione os pares combinados',
+          words: [
+            {
+              language: 'pt',
+              values: [
+                {
+                  value: 'menino',
+                  ref: 'chico',
+                },
+                {
+                  value: 'mulher',
+                  ref: 'mujer',
+                },
+                {
+                  value: 'uma',
+                  ref: 'una',
+                },
+                {
+                  value: 'eu',
+                  ref: 'yo',
+                },
+                {
+                  value: 'homem',
+                  ref: 'hombre',
+                },
+              ],
+            },
+            {
+              language: 'es',
+              values: [
+                {
+                  value: 'mujer',
+                  ref: 'mulher',
+                },
+                {
+                  value: 'chico',
+                  ref: 'menino',
+                },
+                {
+                  value: 'yo',
+                  ref: 'eu',
+                },
+                {
+                  value: 'una',
+                  ref: 'uma',
+                },
+                {
+                  value: 'hombre',
+                  ref: 'homem',
+                },
+              ],
+            },
+          ],
         },
       ],
     },
@@ -383,10 +482,118 @@ export const lessons = {
       steps: [
         {
           type: 'listening',
-          title: 'Write this in English',
-          image: <Woman />,
-          words: ['woman', 'boy', 'I', 'A', 'man'],
-          sentence: 'Um homem',
+          title: 'Selecione o que você ouve',
+          words: ['tener', 'cómo', 'uste', 'haciendo', 'va', 'ta', 'una', 'te'],
+          answer: 'cómo te va',
+          sentence: {
+            language: 'en',
+            value: 'cómo te va',
+          },
+          images: [
+            {
+              image: () => <IcSound className="text-white h-10 w-28" />,
+              speed: 1,
+            },
+            {
+              image: () => <IcSlowSound />,
+              speed: 0.5,
+            },
+          ],
+        },
+        {
+          type: 'image',
+          title: 'Qual desses é o “bombeiro”?',
+          images: [
+            {
+              image: () => <Fireman />,
+              title: 'el bombero',
+            },
+            {
+              image: () => <Police />,
+              title: 'el policia',
+            },
+            {
+              image: () => <SecurityMan />,
+              title: 'el hombre de seguridad',
+            },
+          ],
+          answer: 'el bombero',
+        },
+        {
+          type: 'sentence',
+          title: 'Escreva isso em inglês',
+          image: () => <ManSmile />,
+          words: [
+            'mujer',
+            'ella',
+            'su',
+            'es',
+            'una',
+            'hijo',
+            'luego',
+            'bonito',
+          ],
+          sentence: {
+            language: 'pt',
+            value: 'O filho dela é bonito',
+          },
+          answer: 'su hijo es bonito',
+        },
+        {
+          type: 'matchWords',
+          title: 'Selecione os pares combinados',
+          words: [
+            {
+              language: 'pt',
+              values: [
+                {
+                  value: 'colher',
+                  ref: 'cuchara',
+                },
+                {
+                  value: 'sabão',
+                  ref: 'jabón',
+                },
+                {
+                  value: 'faca',
+                  ref: 'cara',
+                },
+                {
+                  value: 'panela',
+                  ref: 'sartén',
+                },
+                {
+                  value: 'garfo',
+                  ref: 'garfio',
+                },
+              ],
+            },
+            {
+              language: 'es',
+              values: [
+                {
+                  value: 'cara',
+                  ref: 'faca',
+                },
+                {
+                  value: 'garfio',
+                  ref: 'garfo',
+                },
+                {
+                  value: 'cuchara',
+                  ref: 'colher',
+                },
+                {
+                  value: 'sartén',
+                  ref: 'panela',
+                },
+                {
+                  value: 'jabón',
+                  ref: 'sabão',
+                },
+              ],
+            },
+          ],
         },
       ],
     },
@@ -394,10 +601,133 @@ export const lessons = {
       steps: [
         {
           type: 'listening',
-          title: 'Write this in English',
-          image: <Woman />,
-          words: ['woman', 'boy', 'I', 'A', 'man'],
-          sentence: 'Um homem',
+          title: 'Selecione o que você ouve',
+          words: [
+            'se',
+            'él',
+            'abajo',
+            'estrella',
+            'cayó',
+            'de',
+            'the',
+            'from',
+            'escaleras',
+            'las',
+          ],
+          answer: 'se cayó de las escaleras',
+          sentence: {
+            language: 'es',
+            value: 'se cayó de las escaleras',
+          },
+          images: [
+            {
+              image: () => <IcSound className="text-white h-10 w-28" />,
+              speed: 1,
+            },
+            {
+              image: () => <IcSlowSound />,
+              speed: 0.5,
+            },
+          ],
+        },
+        {
+          type: 'sentence',
+          title: 'Escreva isso em espanhol',
+          image: () => <Woman />,
+          words: [
+            'cartera',
+            'él',
+            'querida',
+            'quiere',
+            'its',
+            'wants',
+            'su',
+            'recuperar',
+          ],
+          sentence: {
+            language: 'pt',
+            value: 'Ele quer a carteira dele de volta',
+          },
+          answer: 'quiere recuperar su cartera',
+        },
+        {
+          type: 'sentence',
+          title: 'Escreva isso em espanhol',
+          image: () => <Woman />,
+          words: [
+            'too',
+            'morada',
+            'roxo',
+            'Ella',
+            'él',
+            'more',
+            'is',
+            'its',
+            'too',
+            'demasiado',
+            'lleva',
+          ],
+          sentence: {
+            language: 'pt',
+            value: 'Ela esta vestindo muito roxo',
+          },
+          answer: 'Ella lleva demasiado morada',
+        },
+        {
+          type: 'matchWords',
+          title: 'Selecione os pares combinados',
+          words: [
+            {
+              language: 'pt',
+              values: [
+                {
+                  value: 'peso',
+                  ref: 'peso',
+                },
+                {
+                  value: 'árvore',
+                  ref: 'árbol',
+                },
+                {
+                  value: 'anilha',
+                  ref: 'lavadora',
+                },
+                {
+                  value: 'teto',
+                  ref: 'techo',
+                },
+                {
+                  value: 'prancha',
+                  ref: 'tablaje',
+                },
+              ],
+            },
+            {
+              language: 'en',
+              values: [
+                {
+                  value: 'árbol',
+                  ref: 'árvore',
+                },
+                {
+                  value: 'tablaje',
+                  ref: 'prancha',
+                },
+                {
+                  value: 'techo',
+                  ref: 'teto',
+                },
+                {
+                  value: 'peso',
+                  ref: 'peso',
+                },
+                {
+                  value: 'lavadora',
+                  ref: 'anilha',
+                },
+              ],
+            },
+          ],
         },
       ],
     },
