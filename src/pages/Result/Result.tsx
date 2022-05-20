@@ -1,9 +1,30 @@
-import { IcBorderClose, IcCheck } from '@/assets/icons';
+import { useEffect, useState } from 'react';
+import Confetti from 'react-confetti';
+
 import { Mascot } from '@/assets/images';
 import { useLessons } from '@/contexts';
+import { Anchor } from '@/components';
+import { Icon } from '@/components/Icon/Icon';
+import { PATHS } from '@/constants/paths';
 
 export const Result = () => {
+  const [isConfettiShowing, setIsConfettiShowing] = useState(false);
   const { answersAmount } = useLessons();
+
+  useEffect(() => {
+    const { corrects, wrongs } = answersAmount;
+    const hasSuccess = corrects > wrongs;
+
+    setIsConfettiShowing(hasSuccess);
+  }, [answersAmount]);
+
+  useEffect(() => {
+    if (isConfettiShowing) {
+      setTimeout(() => {
+        setIsConfettiShowing(false);
+      }, 7000);
+    }
+  }, [isConfettiShowing]);
 
   return (
     <div className="flex justify-center items-center h-screen w-full flex-col">
@@ -17,7 +38,7 @@ export const Result = () => {
           <h3 className="text-2xl font-bold text-slate-50">Corrects:</h3>
 
           <span className="flex items-center font-bold text-xl text-neutral-50">
-            {answersAmount.corrects} <IcCheck className="w-11 h-10" />
+            {answersAmount.corrects} <Icon icon="IcCheck" />
           </span>
         </div>
 
@@ -25,9 +46,19 @@ export const Result = () => {
           <h3 className="text-2xl font-bold text-slate-50">Wrongs:</h3>
 
           <span className="flex items-center font-bold text-xl text-neutral-50">
-            {answersAmount.wrongs} <IcBorderClose className="w-11 h-10" />
+            {answersAmount.wrongs} <Icon icon="IcBorderClose" />
           </span>
         </div>
+      </div>
+
+      {isConfettiShowing && (
+        <Confetti width={window.innerWidth} height={window.innerHeight} />
+      )}
+
+      <div className="flex mt-8">
+        <Anchor icon="IcReload" href={PATHS.HOME}>
+          Play again
+        </Anchor>
       </div>
     </div>
   );
