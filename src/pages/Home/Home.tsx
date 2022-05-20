@@ -6,7 +6,7 @@ import { Mascot } from '@/assets/images/';
 import { setUrlWithParams } from '@/utils/url';
 import { PATHS } from '@/constants/paths';
 
-export type Language = 'en' | 'pt';
+export type Language = 'en' | 'es';
 
 export type Level = 'beginner' | 'medium' | 'advanced';
 
@@ -16,7 +16,7 @@ const cardStyle =
 export const Home = () => {
   const [language, setLanguage] = useState('');
 
-  const handleSelectedLanguage = (language: Language | string) => {
+  const handleSelectedLanguage = (language: Language | '') => {
     setLanguage(language);
   };
 
@@ -36,9 +36,7 @@ export const Home = () => {
       <main className="relative maxw-96">
         <Card title="Choose your language">
           <Button onClick={() => handleSelectedLanguage('en')}>English</Button>
-          <Button onClick={() => handleSelectedLanguage('pt')}>
-            Portuguese
-          </Button>
+          <Button onClick={() => handleSelectedLanguage('es')}>Spanish</Button>
         </Card>
 
         <Card
