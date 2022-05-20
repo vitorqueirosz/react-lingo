@@ -60,7 +60,7 @@ export const Image = ({ title, images, answer }: ImageProps) => {
                 <Image />
               </div>
 
-              <span className="text-slate-600">{title}</span>
+              <span className="text-slate-400 font-medium">{title}</span>
             </button>
           ))}
         </div>

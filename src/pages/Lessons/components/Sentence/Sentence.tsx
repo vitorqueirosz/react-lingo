@@ -1,6 +1,5 @@
 import { ImgHTMLAttributes, useCallback, useRef, useState } from 'react';
 
-import { useParams } from '@/hooks/useParams';
 import { Language } from '@/pages/Home/Home';
 import { setSpeakByWord } from '@/utils/speech';
 import { IcSound } from '@/assets/icons';
@@ -31,7 +30,6 @@ export const Sentence = ({
   sentence,
   answer,
 }: SentenceProps) => {
-  const language = useParams('language') as Language;
   const { handleAnswerAmount } = useLessons();
 
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
@@ -39,7 +37,7 @@ export const Sentence = ({
 
   const buttonRef = useRef<HTMLButtonElement | null>(null);
 
-  useSetVoiceOnMount(language, sentence.value);
+  useSetVoiceOnMount(sentence.language, sentence.value);
 
   const hasAnswer = typeof isCorrectAnswer === 'boolean';
 
