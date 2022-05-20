@@ -1,8 +1,9 @@
 import { ButtonHTMLAttributes } from 'react';
 import { baseStyle } from '../Anchor/Anchor';
+import { Icon, IconsKeys } from '@/components';
 
 type ButtonProps = {
-  icon?: React.ReactNode;
+  icon?: IconsKeys;
   size?: 'large' | 'normal';
   color?: 'secondary';
   upperCase?: boolean;
@@ -35,6 +36,10 @@ const errorStyles = {
   transitionDuration: 'initial',
 };
 
+const iconStyles = {
+  minWidth: '10rem',
+};
+
 export const Button = ({
   children,
   icon,
@@ -55,11 +60,12 @@ export const Button = ({
         ...(color && { ...colors[color] }),
         ...(hasError && { ...errorStyles }),
         ...(disabled && { ...disabledStyles }),
+        ...(icon && { ...iconStyles }),
         textTransform: upperCase ? 'uppercase' : 'initial',
       }}
       disabled={disabled}
     >
-      {icon && icon}
+      {icon && <Icon icon={icon} />}
       {children}
     </button>
   );
