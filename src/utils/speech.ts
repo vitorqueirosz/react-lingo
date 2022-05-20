@@ -1,7 +1,7 @@
 import { Language } from '@/pages';
 
 const languageKey = {
-  pt: 'pt-BR',
+  es: 'es-ES',
   en: 'en-US',
 };
 
