@@ -4,6 +4,7 @@ import { Footer, WordsList } from '@/components';
 import { useLessons } from '@/contexts';
 import { Language } from '@/pages/Home/Home';
 import { setSpeakByWord } from '@/utils/speech';
+import { useSetVoiceOnMount } from '@/hooks';
 
 export type ListeningProps = {
   answer: string;
@@ -27,6 +28,8 @@ export const Listening = ({
 
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
   const [isCorrectAnswer, setIsCorrectAnswer] = useState<boolean | null>(null);
+
+  useSetVoiceOnMount(sentence.language, sentence.value);
 
   const hasAnswer = typeof isCorrectAnswer === 'boolean';
 
