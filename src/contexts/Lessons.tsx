@@ -11,6 +11,7 @@ type ContextDataProps = {
   answersAmount: AnswersAmount;
   handleAnswerAmount: (isAnswerCorrect: boolean) => void;
   handleNextStep: () => void;
+  handleResetAnswersAmount: () => void;
 };
 
 const defaultContextValues = {
@@ -20,6 +21,7 @@ const defaultContextValues = {
     corrects: 0,
   },
   handleAnswerAmount: () => undefined,
+  handleResetAnswersAmount: () => undefined,
   handleNextStep: () => undefined,
 };
 
@@ -32,6 +34,9 @@ export const LessonsProvider = ({ children }: WithChildren) => {
   const [answersAmount, setAnswersAmount] = useState<AnswersAmount>(
     defaultContextValues.answersAmount,
   );
+
+  const handleResetAnswersAmount = () =>
+    setAnswersAmount(defaultContextValues.answersAmount);
 
   const handleAnswerAmount = useCallback((isAnswerCorrect: boolean) => {
     const key = isAnswerCorrect ? 'corrects' : 'wrongs';
@@ -48,6 +53,7 @@ export const LessonsProvider = ({ children }: WithChildren) => {
     currentStep,
     answersAmount,
     handleAnswerAmount,
+    handleResetAnswersAmount,
     handleNextStep,
   };
 
