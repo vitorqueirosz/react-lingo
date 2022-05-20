@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { IcClose } from '@/assets/icons';
 import { Language, Level } from '@/pages';
@@ -35,6 +35,19 @@ const renders: Record<LessonType, Element> = {
 
 const resultStep = 4;
 
+const generateRandomNumbers = () => {
+  const randomNumbersArr = [];
+
+  while (randomNumbersArr.length < 4) {
+    const randomNumber = Math.floor(Math.random() * 4);
+    const noExists = randomNumbersArr.indexOf(randomNumber) === -1;
+
+    if (noExists) randomNumbersArr.push(randomNumber);
+  }
+
+  return randomNumbersArr;
+};
+
 export const Lessons = () => {
   const [lessonComponent, setLessonComponent] = useState(<></>);
 
@@ -42,19 +55,31 @@ export const Lessons = () => {
   const { language, level } = useParams(['language', 'level']) as Result;
   const navigate = useNavigate();
 
-  const steps = lessons[language][level].steps;
+  const randomSteps = useMemo(() => {
+    const steps = lessons[language][level].steps;
+    const numbers = generateRandomNumbers();
+    const newSteps = [...steps];
 
-  const stepsAmount = steps.length;
+    numbers.forEach((number, index) => {
+      newSteps[number] = steps[index];
+    });
+
+    return newSteps;
+  }, [language, level]);
+
+  const stepsAmount = randomSteps.length;
   const percent = (currentStep / stepsAmount) * 100;
 
   useEffect(() => {
     if (currentStep === resultStep) return navigate(PATHS.RESULT);
 
-    const step = steps[currentStep];
+    const steps = lessons[language][level].steps;
+
+    const step = steps[2];
     const lesson = renders[step.type as LessonType](step);
 
     setLessonComponent(lesson);
-  }, [currentStep, navigate, steps]);
+  }, [currentStep, navigate, language, level]);
 
   return (
     <div className="flex flex-col h-screen justify-between items-center w-full">
