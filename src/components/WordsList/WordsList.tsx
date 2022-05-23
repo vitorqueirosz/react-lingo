@@ -1,6 +1,7 @@
 import { useParams } from '@/hooks';
 import { Language } from '@/pages';
 import { defaultStyles } from '@/pages/Lessons/components';
+import { isMobile } from '@/utils/isMobile';
 import { setSpeakByWord } from '@/utils/speech';
 import { useRef } from 'react';
 
@@ -10,6 +11,15 @@ type WordsListProps = {
   handleSelectedWords: (words: string[]) => void;
   hasAnswer: boolean;
 };
+
+const SelectedWordsContainer = ({ style = '' }: { style?: string }) => (
+  <div
+    className={
+      'absolute flex flex-wrap items-center h-20 w-full border-y-2 border-neutral-200 ' +
+      style
+    }
+  />
+);
 
 export const WordsList = ({
   words,
@@ -95,10 +105,13 @@ export const WordsList = ({
   };
 
   return (
-    <div>
+    <div className="relative">
+      <SelectedWordsContainer />
+      {isMobile() && <SelectedWordsContainer style="top-20 border-t-0" />}
+
       <div
         ref={answeredListRef}
-        className="flex flex-wrap items-center h-20 w-full border-y-2 border-neutral-200"
+        className="flex flex-wrap w-full gap-y-1 h-40 pt-2 md:h-20"
       >
         {selectedWords.map((word, index) => (
           <div
@@ -121,7 +134,7 @@ export const WordsList = ({
         ))}
       </div>
 
-      <div className="flex items-center justify-center w-full mt-12">
+      <div className="flex items-center justify-center w-full mt-8 flex-wrap gap-y-2">
         {words.map((word, index) => (
           <div key={word} className="bg-gray-200 rounded-xl z-0 mr-1">
             <div
