@@ -3,7 +3,7 @@ import { ImgHTMLAttributes, useCallback, useRef, useState } from 'react';
 import { Language } from '@/pages/Home/Home';
 import { setSpeakByWord } from '@/utils/speech';
 import { IcSound } from '@/assets/icons';
-import { Footer, WordsList } from '@/components';
+import { Footer, Title, WordsList } from '@/components';
 import { useLessons } from '@/contexts';
 import { useSetVoiceOnMount } from '@/hooks/useSetVoiceOnMount';
 
@@ -60,7 +60,7 @@ export const Sentence = ({
   return (
     <>
       <div className="flex justify-center flex-col w-full max-w-screen-sm h-full">
-        <h1 className="font-bold text-3xl text-slate-600">{title}</h1>
+        <Title>{title}</Title>
 
         <div className="flex items-center mt-6">
           <div className="h-44 ml-4">
