@@ -39,11 +39,11 @@ const FooterResult = ({ isCorrectAnswer, answer }: FooterResultProps) => {
 
   return (
     <div className="flex">
-      <div className="flex items-center justify-center rounded-3xl w-18 h-16 mr-4">
+      <div className="hidden lg:flex items-center justify-center rounded-3xl w-18 h-16 mr-4">
         {currentValue.icon()}
       </div>
       <div>
-        <h3 className={'font-bold text-2xl ' + currentValue.style}>
+        <h3 className={'font-bold text-xl md:2xl ' + currentValue.style}>
           {currentValue.title}
         </h3>
         {!isCorrectAnswer && <span className="text-red-700">{answer}</span>}
@@ -71,7 +71,7 @@ export const Footer = ({
     <footer
       className={'border-t-2 border-neutral-200 h-36 w-full ' + stateStyle}
     >
-      <div className="flex m-auto justify-between items-center h-full w-full max-w-3xl">
+      <div className="flex m-auto justify-around items-center h-full w-full max-w-3xl md:justify-between">
         {hasAnswer ? (
           <FooterResult isCorrectAnswer={isCorrectAnswer} answer={answer} />
         ) : (
