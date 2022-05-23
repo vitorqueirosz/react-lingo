@@ -18,7 +18,7 @@ export const Card = ({
   return (
     <div
       className={
-        'flex flex-col justify-center items-center mt-16 bg-slate-400 rounded-md w-96 h-40 p-1' +
+        'flex flex-col justify-center items-center mt-16 bg-slate-400 rounded-md w-auto h-40 p-1 px-4 m-auto' +
         style
       }
     >
@@ -31,7 +31,7 @@ export const Card = ({
 
       <h3 className="text-3xl font-bold text-slate-50">{title}</h3>
 
-      <div className="flex justify-center items-center mt-8 gap-2">
+      <div className="flex justify-center items-center mt-8 gap-2 w-full">
         {children}
       </div>
     </div>

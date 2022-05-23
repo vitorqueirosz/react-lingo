@@ -25,15 +25,19 @@ export const Home = () => {
   };
 
   return (
-    <div className="bg-gray-100 flex h-screen w-full flex-col items-center ">
-      <div className="relative flex gap-4 mt-40">
-        <h1 className="text-6xl font-bold text-gray-700">Welcome to</h1>
-        <h1 className="text-6xl font-bold text-green-500">React-Lingo</h1>
+    <div className="bg-gray-100 flex h-screen w-full overflow-x-hidden flex-col items-center ">
+      <div className="relative flex gap-4 mt-40 flex-wrap justify-center">
+        <h1 className="text-5xl font-bold text-gray-700 lg:text-6xl">
+          Welcome to
+        </h1>
+        <h1 className="text-5xl font-bold text-green-500 lg:text-6xl">
+          React-Lingo
+        </h1>
 
-        <Mascot className="absolute w-24 h-40 -right-16 -top-20" />
+        <Mascot className="absolute w-20 h-40 right-2 -top-20 sm:-right-14" />
       </div>
 
-      <main className="relative maxw-96">
+      <main className="relative flex justify-center">
         <Card title="Choose your language">
           <Button onClick={() => handleSelectedLanguage('en')}>English</Button>
           <Button onClick={() => handleSelectedLanguage('es')}>Spanish</Button>
