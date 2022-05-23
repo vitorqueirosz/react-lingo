@@ -75,7 +75,7 @@ export const Lessons = () => {
 
     const steps = lessons[language][level].steps;
 
-    const step = steps[2];
+    const step = steps[currentStep];
     const lesson = renders[step.type as LessonType](step);
 
     setLessonComponent(lesson);
