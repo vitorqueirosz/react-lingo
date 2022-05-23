@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Footer, WordsList } from '@/components';
+import { Footer, Title, WordsList } from '@/components';
 import { useLessons } from '@/contexts';
 import { Language } from '@/pages/Home/Home';
 import { setSpeakByWord } from '@/utils/speech';
@@ -52,7 +52,7 @@ export const Listening = ({
   return (
     <>
       <div className="flex justify-center flex-col w-full max-w-screen-md h-full">
-        <h1 className="font-bold text-3xl text-slate-600 mb-10">{title}</h1>
+        <Title>{title}</Title>
 
         <div className="flex items-end justify-center mb-10">
           {images.map(({ image: Image, speed }, index) => (

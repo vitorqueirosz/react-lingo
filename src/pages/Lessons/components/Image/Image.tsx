@@ -1,4 +1,4 @@
-import { Footer } from '@/components';
+import { Footer, Title } from '@/components';
 import { useLessons } from '@/contexts';
 import { useParams } from '@/hooks';
 import { Language } from '@/pages/Home/Home';
@@ -43,9 +43,9 @@ export const Image = ({ title, images, answer }: ImageProps) => {
   return (
     <>
       <div className="flex justify-center flex-col w-full max-w-screen-md h-full">
-        <h1 className="font-bold text-3xl text-slate-600">{title}</h1>
+        <Title>{title}</Title>
 
-        <div className="flex justify-center items-center mt-16">
+        <div className="flex justify-center items-center mt-16 flex-wrap w-full gap-y-2">
           {images.map(({ title, image: Image }) => (
             <button
               key={title}
@@ -56,7 +56,7 @@ export const Image = ({ title, images, answer }: ImageProps) => {
               }
               onClick={() => handleSelectWord(title)}
             >
-              <div className="w-48 h-40 mb-4">
+              <div className="w-42 h-40 mb-4 md:w-48">
                 <Image />
               </div>
 

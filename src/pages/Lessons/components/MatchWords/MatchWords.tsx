@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import { Footer } from '@/components';
+import { Footer, Title } from '@/components';
 import { useLessons } from '@/contexts';
 import { Language } from '@/pages/Home/Home';
 import { setSpeakByWord } from '@/utils/speech';
@@ -142,19 +142,19 @@ export const MatchWords = ({ title, words }: MatchWordsProps) => {
   return (
     <>
       <div className="flex justify-center flex-col w-full max-w-screen-md h-full">
-        <h1 className="font-bold text-3xl text-slate-600 mb-10">{title}</h1>
+        <Title>{title}</Title>
 
         <div className="flex items-center justify-center w-full mb-14">
           {words.map((words, parentIndex) => (
             <div
               key={'wordsContainer' + parentIndex}
-              className="flex flex-col first:mr-8"
+              className="flex flex-col mt-10 first:mr-4 md:first:mr-4"
             >
               {words.values.map((word, index) => (
                 <button
                   key={word.value}
                   className={
-                    'flex items-center border-2 border-b-4 border-neutral-200 rounded-xl bg-white w-64 py-2 pl-2 mb-2 cursor-pointer ' +
+                    'flex items-center border-2 border-b-4 border-neutral-200 rounded-xl bg-white w-44 py-2 pl-2 mb-2 cursor-pointer md:w-64 ' +
                     selectedStyles(word.value)
                   }
                   onClick={() =>

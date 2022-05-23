@@ -73,13 +73,11 @@ export const Lessons = () => {
   useEffect(() => {
     if (currentStep === resultStep) return navigate(PATHS.RESULT);
 
-    const steps = lessons[language][level].steps;
-
-    const step = steps[currentStep];
+    const step = randomSteps[currentStep];
     const lesson = renders[step.type as LessonType](step);
 
     setLessonComponent(lesson);
-  }, [currentStep, navigate, language, level]);
+  }, [currentStep, navigate, randomSteps]);
 
   return (
     <div className="flex flex-col h-screen justify-between items-center w-full">
@@ -89,7 +87,7 @@ export const Lessons = () => {
             <IcClose />
           </button>
 
-          <div className="relative w-7/12 flex items-center justify-center">
+          <div className="relative w-10/12  flex items-center justify-center sm:w-7/12">
             <div className="relative bg-gray-300 h-4 w-full rounded-md" />
             <div
               className="absolute bg-green-500 h-4 w-full rounded-md left-0 transition-all ease-in-out duration-300"
